@@ -7,6 +7,9 @@ import androidx.core.provider.FontRequest;
 import androidx.core.provider.FontsContractCompat;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -62,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ClipboardManager clipboard =(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("onCreate text", "Hello, onCreate!");
+        clipboard.setPrimaryClip(clip);
+
     }
 
     private void requestDownload(String familyName) {
@@ -126,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viewACTION_WIFI_IP_SETTINGS(View view) {
-        Intent intent = new Intent(Settings.ACTION_WIFI_IP_SETTINGS);
+//        Intent intent = new Intent(Settings.ACTION_WIFI_IP_SETTINGS);
+        Intent intent = new Intent(Settings.ACTION_SETTINGS);
         startActivity(intent);
     }
 
@@ -143,6 +152,28 @@ public class MainActivity extends AppCompatActivity {
     public void darkthema(View view) {
         Log.d("BuildConfig.DEBUG","darkmode");
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
+
+    public void onclickCopyBtn(View view) {
+        //紹介文をコピーする
+        ClipboardManager clipboard =(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("simple text", "Hello, World!");
+        clipboard.setPrimaryClip(clip);
+
+        Context context = getApplicationContext();
+        CharSequence text = "Hello toast!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+//        // Show Dialog
+//        dialog = AlertDialogFragment.newInstance(
+//                "",
+//                getString(R.string.dlg_msg_copied),
+//                getString(R.string.dlg_ok),
+//                "", null)
+//        dialog.show(fragmentManager!!, "dialog");
     }
 
 }
